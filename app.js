@@ -24,7 +24,14 @@ const NotFoundError = require('./errors/not-found-error');
 
 mongoose.connect('mongodb://127.0.0.1:27017/diplomadb');
 
-app.use(cors({ origin: ['http://mesto.itf.nomoredomains.monster', 'https://mesto.itf.nomoredomains.monster'] }));
+app.use(
+  cors({
+    origin: [
+      'http://movies-explorer-itf.nomoredomains.monster',
+      'https://movies-explorer-itf.nomoredomains.monster',
+    ],
+  }),
+);
 app.use(express.json());
 
 app.use(requestLogger);
