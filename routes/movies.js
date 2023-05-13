@@ -1,6 +1,7 @@
 // GET /movies - # возвращает все сохранённые текущим  пользователем фильмы
 // POST /movies - # создаёт фильм с переданными в теле data:
-// # country, director, duration, year, description, image, trailer, nameRU, nameEN и thumbnail, movieId
+// # country, director, duration, year, description, image,
+// trailer, nameRU, nameEN и thumbnail, movieId
 // DELETE /movies/_id - # удаляет сохранённый фильм по id
 
 const { celebrate, Joi } = require('celebrate');
@@ -27,16 +28,14 @@ moviesRouter.post('/', celebrate({
     image: Joi.string().required().regex(linkPattern),
     trailerLink: Joi.string().required().regex(linkPattern),
     thumbnail: Joi.string().required().regex(linkPattern),
-    owner: Joi.string().required(),
-    movieId: Joi.string().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
 }), createMovie);
 
-moviesRouter.delete('/_id', celebrate({
+moviesRouter.delete('/:movieId', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().length(24),
+    movieId: Joi.string(),
   }),
 }), deleteMovieByID);
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-// const cors = require('cors');
+const cors = require('cors');
 require('dotenv').config({ path: './.env' });
 
 const { PORT = 3001 } = process.env;
@@ -14,7 +14,6 @@ const usersRouter = require('./routes/users');
 const moviesRouter = require('./routes/movies');
 
 const { limiter } = require('./utils/limiter');
-const { linkPattern } = require('./utils/utils');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { createUser, login } = require('./controllers/users');
@@ -25,7 +24,7 @@ const NotFoundError = require('./errors/not-found-error');
 
 mongoose.connect('mongodb://127.0.0.1:27017/diplomadb');
 
-// app.use(cors({ origin: ['http://mesto.itf.nomoredomains.monster', 'https://mesto.itf.nomoredomains.monster'] }));
+app.use(cors({ origin: ['http://mesto.itf.nomoredomains.monster', 'https://mesto.itf.nomoredomains.monster'] }));
 app.use(express.json());
 
 app.use(requestLogger);
@@ -53,7 +52,6 @@ app.use(auth);
 app.use('/users', auth, usersRouter);
 app.use('/movies', auth, moviesRouter);
 app.use('/*', (req, res, next) => {
-  // res.status(NOT_FOUND_ERROR).send({ message: 'Запрошенная страница не найдена' });
   next(new NotFoundError('Запрошенная страница не найдена'));
 });
 

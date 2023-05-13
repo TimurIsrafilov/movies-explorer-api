@@ -9,19 +9,19 @@ const getMovies = (req, res, next) => Movie.find({})
   .catch(next);
 
 const createMovie = (req, res, next) => Movie.create({
-  ...{ country: req.body.country,
-       director: req.body.director,
-       duration: req.body.duration,
-       year: req.body.year,
-       description: req.body.description,
-       image: req.body.image,
-       trailerLink: req.body.trailerLink,
-       thumbnail: req.body.thumbnail,
-       owner: req.user._id,
-       movieId: req.body.movieId,
-// check movieId: req.body.movieId, !!!!!!!!!!!!!!!!!!!!!!!!
-       nameRU: req.body.nameRU,
-       nameEN: req.body.nameEN, },
+  ...{
+    country: req.body.country,
+    director: req.body.director,
+    duration: req.body.duration,
+    year: req.body.year,
+    description: req.body.description,
+    image: req.body.image,
+    trailerLink: req.body.trailerLink,
+    thumbnail: req.body.thumbnail,
+    owner: req.user._id,
+    nameRU: req.body.nameRU,
+    nameEN: req.body.nameEN,
+  },
 })
   .then((movie) => res.status(201).send(movie))
   .catch((error) => {
