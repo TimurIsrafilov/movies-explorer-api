@@ -4,25 +4,26 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config({ path: './.env' });
 
-const { PORT = 3001 } = process.env;
+const { NODE_ENV, PORT, DB_URL } = process.env;
 const app = express();
 
+const helmet = require('helmet');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const usersRouter = require('./routes/users');
-const moviesRouter = require('./routes/movies');
+const router = require('./routes/index');
 
 const { limiter } = require('./utils/limiter');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { commonError } = require('./errors/common-error');
 
 const { createUser, login } = require('./controllers/users');
 
 const auth = require('./middlewares/auth');
 
-const NotFoundError = require('./errors/not-found-error');
+mongoose.connect(`mongodb://127.0.0.1:27017/${DB_URL}`);
 
-mongoose.connect('mongodb://127.0.0.1:27017/diplomadb');
+app.use(helmet());
 
 app.use(
   cors({
@@ -56,28 +57,17 @@ app.post('/signin', celebrate({
 app.use(auth);
 
 // роуты, которым авторизация нужна
-app.use('/users', auth, usersRouter);
-app.use('/movies', auth, moviesRouter);
-app.use('/*', (req, res, next) => {
-  next(new NotFoundError('Запрошенная страница не найдена'));
-});
+app.use(router);
 
 app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
-
-  res.status(statusCode).send({
-    // проверяем статус и выставляем сообщение в зависимости от него
-    message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
-  });
-
-  next();
-});
+app.use(commonError);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
+  if (NODE_ENV !== 'production') {
+    console.log('Code run in: dev mode');
+  } console.log('Code run in: production mode');
 });
