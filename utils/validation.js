@@ -1,7 +1,7 @@
 const { celebrate, Joi } = require('celebrate');
 Joi.objectId = require('joi-objectid')(Joi);
 
-const { linkPattern } = require('./utils');
+const { linkPattern } = require('./constants');
 
 module.exports.createMovieValidation = celebrate({
   body: Joi.object().keys({
@@ -22,6 +22,21 @@ module.exports.createMovieValidation = celebrate({
 module.exports.deleteMovieByIDValidation = celebrate({
   params: Joi.object({
     movieId: Joi.objectId(),
+  }),
+});
+
+module.exports.createUserValidation = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+    name: Joi.string().min(2).max(30),
+  }),
+});
+
+module.exports.loginValidation = celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
   }),
 });
 

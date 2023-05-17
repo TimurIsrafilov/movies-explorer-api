@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
+const { URL_REQUIRED } = require('../utils/constants');
+
 const movieSchema = new mongoose.Schema({
   country: {
     type: String,
@@ -31,7 +33,7 @@ const movieSchema = new mongoose.Schema({
         require_tld: true,
         require_protocol: true,
       }),
-      message: 'необходимо ввести URL',
+      message: URL_REQUIRED,
     },
   },
   trailerLink: {
@@ -43,7 +45,7 @@ const movieSchema = new mongoose.Schema({
         require_tld: true,
         require_protocol: true,
       }),
-      message: 'необходимо ввести URL',
+      message: URL_REQUIRED,
     },
   },
   thumbnail: {
@@ -55,7 +57,7 @@ const movieSchema = new mongoose.Schema({
         require_tld: true,
         require_protocol: true,
       }),
-      message: 'необходимо ввести URL',
+      message: URL_REQUIRED,
     },
   },
   owner: {
