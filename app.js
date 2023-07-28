@@ -40,7 +40,7 @@ app.use(errorLogger);
 app.use(errors());
 app.use(commonError);
 
-app.listen(PROD_PORT, () => {
+app.listen(`${NODE_ENV === 'production' ? PROD_PORT : DEV_PORT}`, () => {
   console.log(`${APP_LISTENS} ${NODE_ENV === 'production' ? PROD_PORT : DEV_PORT}`);
   console.log(`${CODE_RUNS} ${NODE_ENV === 'production' ? PROD_MODE : DEV_MODE}`);
 });

@@ -14,7 +14,8 @@ const LIMITER_ERR = 'Too many request from this IP';
 
 const DB_DEV_URL = 'mongodb://127.0.0.1:27017/diplomadb';
 const APP_LISTENS = 'App listening on port';
-const DEV_PORT = '3000';
+// const DEV_PORT = '3000';
+const DEV_PORT = '3001';
 const CODE_RUNS = 'Code run in';
 const PROD_MODE = 'production mode';
 const DEV_MODE = 'dev mode';
@@ -22,9 +23,12 @@ const JWT_DEV_SECRET = 'dev-secret';
 const JWT_LIVE_PERIOD = '7d';
 
 const linkPattern = /(https?:\/\/)?([\w.]+)\.([a-z]{2,6}\.?)(\/[\w.]*)*\/?$/;
+// const linkPattern = /(https?:\/\/)/;
 
 const HTTP_BACK_URL = 'http://movies-explorer-itf.nomoredomains.monster';
 const HTTPS_BACK_URL = 'https://movies-explorer-itf.nomoredomains.monster';
+// const HTTP_BACK_URL = 'http://localhost:3000';
+// const HTTPS_BACK_URL = 'https://localhost:3000';
 
 module.exports = {
   NOT_CORRECT_DATA,
